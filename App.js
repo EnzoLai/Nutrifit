@@ -13,7 +13,6 @@ export default function App() {
         <Text style={styles.paragraph}>helo</Text>
         <Card>
         </Card>
-        </Card>
       </View>
     </ScrollView>
   );
