@@ -1,0 +1,172 @@
+import React, { useState } from 'react';
+import {View,Text,TextInput,Button,StyleSheet,Image,ScrollView,Alert,TouchableOpacity,
+} from 'react-native';
+
+export default function App() {
+  const [name, setName] = useState('');
+  const [gender, setGender] = useState(null);
+  const [age, setAge] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = () => {
+    if (!name || !gender || !age || !height || !weight) {
+      Alert.alert('Erreur', 'Merci de remplir tous les champs.');
+      return;
+    }
+    setSubmitted(true);
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={require('./assets/Image-Pizza-AD.jpg')}
+        style={styles.image}
+      />
+      <Text style={styles.title}>Meal Planning App</Text>
+
+      {!submitted ? (
+        <View style={styles.form}>
+        <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter your name"
+          />
+
+          <Text style={styles.label}>Gender:</Text>
+          <View style={styles.genderContainer}>
+            <TouchableOpacity
+              style={[
+                styles.genderOption,
+                gender === 'Male' && styles.genderSelected,
+              ]}
+              onPress={() => setGender('Male')}
+            >
+              <Text
+                style={[
+                  styles.genderText,
+                  gender === 'Male' && styles.genderTextSelected,
+                ]}
+              >
+                Male
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.genderOption,
+                gender === 'Female' && styles.genderSelected,
+              ]}
+              onPress={() => setGender('Female')}
+            >
+              <Text
+                style={[
+                  styles.genderText,
+                  gender === 'Female' && styles.genderTextSelected,
+                ]}
+              >
+                Female
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.label}>Age:</Text>
+          <TextInput
+            style={styles.input}
+            value={age}
+            onChangeText={setAge}
+            keyboardType="numeric"
+            placeholder="Enter your age"
+          />
+
+          <Text style={styles.label}>Height (cm):</Text>
+          <TextInput
+            style={styles.input}
+            value={height}
+            onChangeText={setHeight}
+            keyboardType="numeric"
+            placeholder="Enter your height"
+          />
+
+          <Text style={styles.label}>Weight (kg):</Text>
+          <TextInput
+            style={styles.input}
+            value={weight}
+            onChangeText={setWeight}
+            keyboardType="numeric"
+            placeholder="Enter your weight"
+          />
+
+          <Button title="Submit" onPress={handleSubmit} color="#28B572" />
+        </View>
+      ) : (
+        <View style={styles.result}>
+          <Text style={styles.resultText}>Hello, {name}</Text>
+          <Text style={styles.resultText}>Gender: {gender}</Text>
+          <Text style={styles.resultText}>Age: {age}</Text>
+          <Text style={styles.resultText}>Height: {height} cm</Text>
+          <Text style={styles.resultText}>Weight: {weight} kg</Text>
+
+        </View>
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor : '#FFFFFF',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#28B572',
+  },
+  form: {
+    width: '80%',
+  },
+  label: {
+    fontSize: 16,
+  },
+  input: {
+    borderWidth: 3,
+    padding: 10,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+  genderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 15,
+  },
+  genderOption: {
+    borderWidth: 3,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+  },
+  genderSelected: {
+    backgroundColor: '#28B572',
+    borderColor: '#28B572',
+  },
+  genderText: {
+    fontSize: 16,
+  },
+  result: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  resultText: {
+    fontSize: 18,
+    marginVertical: 5,
+  },
+});
