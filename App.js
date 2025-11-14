@@ -1,34 +1,71 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-
-// You can import supported modules from npm
-import { Card } from 'react-native-paper';
-
-// or any files within the Snack
-
+import React, { useState } from "react";
+import { View, Image, Text, StyleSheet } from "react-native";
+import LoginScreen from "./LoginScreen";
+import ProfileScreen from "./ProfileScreen";
+import OkScreen from "./OkScreen";
+import logo from './assets/logo.png'
 
 export default function App() {
+
+  const [user, setUser] = useState(null);
+  const [screen, setScreen] = useState("login");
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.paragraph}>helo</Text>
-        <Card>
-        </Card>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      
+      {/* HEADER */}
+
+      <View style={styles.header}>
+        <Image
+          source={logo}
+          style={styles.logo}
+        />
+        <Text style={styles.appName}>NutriFit</Text>
       </View>
-    </ScrollView>
+
+
+      {/* NAVIGATION */}
+      {screen === "login" && (
+        <LoginScreen
+          onLogin={(userData) => {
+            setUser(userData);
+            setScreen("profile");
+          }}
+        />
+      )}
+
+      {screen === "profile" && (
+        <ProfileScreen
+          user={user}
+          onLogout={() => setScreen("login")}
+          onSaveSuccess={() => setScreen("ok")}
+        />
+      )}
+
+      {screen === "ok" && <OkScreen onBack={() => setScreen("login")} />}
+    </View>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#c0ceec',
-    padding: 8,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 40,
+    paddingBottom: 20,
   },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  logo: {
+    width: 55,
+    height: 55,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  appName: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#28B572",
   },
 });
+
