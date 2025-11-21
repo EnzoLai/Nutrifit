@@ -6,7 +6,7 @@ const SUPABASE_URL = 'https://gclpgggqbmbcaenzidgh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjbHBnZ2dxYm1iY2FlbnppZGdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODI5MjEsImV4cCI6MjA3ODM1ODkyMX0.dIsT_dnWNPFqNpB5C4cY5ZSRetzL1k_B3Fu81XzLQeY';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories, onSelect }) => {
+const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories, onSelect, recipe }) => {
   const [showIngredients, setShowIngredients] = React.useState(false);
   const [showDirections, setShowDirections] = React.useState(false);
 
