@@ -96,7 +96,6 @@ export default function RecipesList({ onBack }) {
         "½ cup dried cranberries",
         "½ cup raisins",
       ],
-      calories:"TBD",
       directions: [
         "Preheat oven to 275 degrees F.",
         "Combine oats, coconut, almonds, pecans, brown sugar, pumpkin seeds and sunflower seeds in a large bowl. Combine syrup, water and oil in a medium bowl or large measuring cup and pour over the oat mixture; stir until well combined. Spread the mixture into a large (12-by-15-inch) roasting pan or large rimmed baking sheet.",
