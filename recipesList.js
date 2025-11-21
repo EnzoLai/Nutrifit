@@ -6,13 +6,19 @@ const SUPABASE_URL = 'https://gclpgggqbmbcaenzidgh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjbHBnZ2dxYm1iY2FlbnppZGdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODI5MjEsImV4cCI6MjA3ODM1ODkyMX0.dIsT_dnWNPFqNpB5C4cY5ZSRetzL1k_B3Fu81XzLQeY';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories }) => {
+const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories, onSelect }) => {
   const [showIngredients, setShowIngredients] = React.useState(false);
   const [showDirections, setShowDirections] = React.useState(false);
 
   return (
     <View style={styles.recipeCard}>
       <Text style={styles.recipeTitle}>{title}</Text>
+      <TouchableOpacity
+          style={styles.selectButton}
+          onPress={() => onSelect(recipe)}
+        >
+          <Text style={styles.selectButtonText}>Select</Text>
+        </TouchableOpacity>
       <Text style={styles.recipeMeta}>Total Time: {time} | Servings: {servings} | Calories: {calories}</Text>
       <Image
         source={image}
@@ -54,6 +60,14 @@ const RecipeCard = ({ title, time, servings, image, ingredients, directions, cal
 
 
 export default function RecipesList({ onBack }) {
+  const [selectedRecipes, setSelectedRecipes] = React.useState([]);
+  const calculateTotalCalories = () => {
+  const recipesWithCalories = selectedRecipes.filter((recipe) => recipe.calories !== "TBD");
+  return recipesWithCalories.reduce((total, recipe) => {
+    const calories = parseInt(recipe.calories, 10) || 0;
+    return total + calories;
+  }, 0);
+};
   const breakfastRecipes = [
     {
       title: "Raspberry-Peach-Mango Smoothie Bowl",
@@ -143,7 +157,7 @@ export default function RecipesList({ onBack }) {
       directions: [
         "TBD",
       ],
-      calories:"TBD",
+      calories:"567",
     },
     {
       title:"Creamy tuscan pork meatballs",
@@ -156,7 +170,7 @@ export default function RecipesList({ onBack }) {
       directions: [
         "TBD",
       ],
-      calories:"TBD",
+      calories:"619",
     },
     {
       title:"Chicken fries fajita",
@@ -169,7 +183,7 @@ export default function RecipesList({ onBack }) {
       directions: [
         "TBD",
       ],
-      calories:"TBD",
+      calories:"561",
     }
     
   ];
@@ -181,31 +195,62 @@ export default function RecipesList({ onBack }) {
 
       {breakfastRecipes.map((recipe, index) => (
         <RecipeCard
-          key={index}
-          title={recipe.title}
-          time={recipe.time}
-          image={recipe.image}
-          servings={recipe.servings}
-          ingredients={recipe.ingredients}
-          directions={recipe.directions}
-          calories={recipe.calories}
-        />
+      key={index}
+      title={recipe.title}
+      time={recipe.time}
+      image={recipe.image}
+      servings={recipe.servings}
+      ingredients={recipe.ingredients}
+      directions={recipe.directions}
+      calories={recipe.calories}
+      onSelect={(selectedRecipe) => {
+      if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
+        setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
+      } else {
+        setSelectedRecipes([...selectedRecipes, selectedRecipe]);
+      }
+    }}
+    recipe={recipe}
+  />
       ))}
 
       <Text style={styles.categoryTitle}>Lunch</Text>
 
       {lunchRecipes.map((recipe, index) => (
         <RecipeCard
-          key={index}
-          title={recipe.title}
-          time={recipe.time}
-          image={recipe.image}
-          servings={recipe.servings}
-          ingredients={recipe.ingredients}
-          directions={recipe.directions}
-          calories={recipe.calories}
-        />
+      key={index}
+      title={recipe.title}
+      time={recipe.time}
+      image={recipe.image}
+      servings={recipe.servings}
+      ingredients={recipe.ingredients}
+      directions={recipe.directions}
+      calories={recipe.calories}
+      onSelect={(selectedRecipe) => {
+      if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
+        setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
+      } else {
+        setSelectedRecipes([...selectedRecipes, selectedRecipe]);
+      }
+    }}
+    recipe={recipe} 
+  />
       ))}
+      <View style={styles.selectedRecipesContainer}>
+  <Text style={styles.selectedRecipesTitle}>Selected Recipes:</Text>
+  {selectedRecipes.length > 0 ? (
+    <>
+      {selectedRecipes.map((recipe, index) => (
+        <Text key={index} style={styles.selectedRecipeText}>• {recipe.title} ({recipe.calories})</Text>
+      ))}
+      <Text style={styles.totalCaloriesText}>
+        Total Calories: {calculateTotalCalories()} kcal
+      </Text>
+    </>
+  ) : (
+    <Text style={styles.noSelectedRecipesText}>No recipes selected yet.</Text>
+  )}
+</View>
 
 
       <View style={styles.buttonContainer}>
@@ -260,6 +305,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
   },
+  totalCaloriesText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#28B572',
+    marginTop: 10,
+  },
   ingredientsContainer: {
     marginBottom: 10,
   },
@@ -304,5 +355,39 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 18,
     color: '#28B572',
+  },
+  selectedRecipesContainer: {
+    width: '100%',
+    marginTop: 20,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#f0f9f5',
+    borderRadius: 10,
+  },
+  selectedRecipesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#28B572',
+    marginBottom: 10,
+  },
+  selectedRecipeText: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 5,
+  },
+  noSelectedRecipesText: {
+    fontSize: 16,
+    color: '#999',
+    fontStyle: 'italic',
+  },
+  selectButton: {
+    backgroundColor: '#28B572',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  selectButtonText: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
