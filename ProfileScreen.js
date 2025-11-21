@@ -123,7 +123,7 @@ export default function ProfileScreen({ user, onLogout, onSaveSuccess }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Mon Profil</Text>
+      <Text style={styles.title}>Profile</Text>
 
       <Text style={styles.label}>Name :</Text>
       <TextInput

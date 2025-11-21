@@ -4,6 +4,7 @@ import { View, Image, Text, StyleSheet } from 'react-native';
 import LoginScreen from './LoginScreen';
 import ProfileScreen from './ProfileScreen';
 import CalorieResultScreen from './CalorieResultScreen';
+import RecipesList from './recipesList';
 import logo from './assets/logo.png';
 
 export default function App() {
@@ -43,6 +44,13 @@ export default function App() {
 
       {screen === 'calories' && calorieData && (
         <CalorieResultScreen
+          data={calorieData}
+          onBack={() => setScreen('profile')}
+          onMealoption={() => setScreen('recipes')}
+        />
+      )}
+      {screen === 'recipes' && (
+        <RecipesList
           data={calorieData}
           onBack={() => setScreen('profile')}
         />

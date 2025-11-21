@@ -1,33 +1,57 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, Button, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://gclpgggqbmbcaenzidgh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjbHBnZ2dxYm1iY2FlbnppZGdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODI5MjEsImV4cCI6MjA3ODM1ODkyMX0.dIsT_dnWNPFqNpB5C4cY5ZSRetzL1k_B3Fu81XzLQeY';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const RecipeCard = ({ title, time, servings, image, ingredients, directions }) => (
-  <View style={styles.recipeCard}>
-    <Text style={styles.recipeTitle}>{title}</Text>
-    <Text style={styles.recipeMeta}>Total Time: {time} | Servings: {servings}</Text>
-    <Image
-      source={image}
-      style={styles.recipeImage}
-      resizeMode="cover"
-    />
-    <Text style={styles.sectionTitle}>Ingredients</Text>
-    <View style={styles.ingredientsContainer}>
-      {ingredients.map((ingredient, index) => (
-        <Text key={index} style={styles.ingredientText}>• {ingredient}</Text>
-      ))}
-    </View>
+const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories }) => {
+  const [showIngredients, setShowIngredients] = React.useState(false);
+  const [showDirections, setShowDirections] = React.useState(false);
 
-    <Text style={styles.sectionTitle}>Directions</Text>
-    {directions.map((step, index) => (
-      <Text key={index} style={styles.directionText}>{index + 1}. {step}</Text>
-    ))}
-  </View>
-);
+  return (
+    <View style={styles.recipeCard}>
+      <Text style={styles.recipeTitle}>{title}</Text>
+      <Text style={styles.recipeMeta}>Total Time: {time} | Servings: {servings} | Calories: {calories}</Text>
+      <Image
+        source={image}
+        style={styles.recipeImage}
+        resizeMode="cover"
+      />
+      <TouchableOpacity
+        style={styles.directionsHeader}
+        onPress={() => setShowIngredients(!showIngredients)}
+      >
+        <Text style={styles.sectionTitle}>Ingredients</Text>
+        <Text style={styles.arrow}>{showIngredients ? '▲' : '▼'}</Text>
+      </TouchableOpacity>
+      {showIngredients && (
+        <View style={styles.ingredientsContainer}>
+          {ingredients.map((ingredient, index) => (
+            <Text key={index} style={styles.ingredientText}>• {ingredient}</Text>
+          ))}
+        </View>
+      )}
+      <TouchableOpacity
+        style={styles.directionsHeader}
+        onPress={() => setShowDirections(!showDirections)}
+      >
+        <Text style={styles.sectionTitle}>Directions</Text>
+        <Text style={styles.arrow}>{showDirections ? '▲' : '▼'}</Text>
+      </TouchableOpacity>
+      {showDirections && (
+        <View>
+          {directions.map((step, index) => (
+            <Text key={index} style={styles.directionText}>{index + 1}. {step}</Text>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+};
+
+
 
 export default function RecipesList({ onBack }) {
   const breakfastRecipes = [
@@ -51,6 +75,7 @@ export default function RecipesList({ onBack }) {
         "Combine mango, yogurt, milk and vanilla in a blender. Puree until smooth.",
         "Pour the smoothie into a bowl and top with peach slices, raspberries, almonds, coconut and chia seeds to taste.",
       ],
+      calories:"TBD",
     },
     {
       title: "Maple-Nut Granola",
@@ -71,11 +96,13 @@ export default function RecipesList({ onBack }) {
         "½ cup dried cranberries",
         "½ cup raisins",
       ],
+      calories:"TBD",
       directions: [
         "Preheat oven to 275 degrees F.",
         "Combine oats, coconut, almonds, pecans, brown sugar, pumpkin seeds and sunflower seeds in a large bowl. Combine syrup, water and oil in a medium bowl or large measuring cup and pour over the oat mixture; stir until well combined. Spread the mixture into a large (12-by-15-inch) roasting pan or large rimmed baking sheet.",
         "Bake for 45 minutes. Remove from the oven, stir, and continue baking until golden brown and beginning to crisp, about 45 minutes more. Stir in cranberries and raisins. Let cool completely before storing.",
       ],
+      calories:"TBD",
     },
     {
       title: "Vegan Freezer Breakfast Burritos",
@@ -102,14 +129,56 @@ export default function RecipesList({ onBack }) {
         "To heat in the microwave: Remove foil, cover with a paper towel and microwave on High until hot, 1 1/2 to 2 minutes.",
         "To heat over a campfire: Place foil-wrapped burrito on a cooking grate over a medium to medium-hot fire. Cook, turning once or twice, until steaming hot throughout, 5 to 10 minutes if partially thawed, up to 15 minutes if frozen.",
       ],
+      calories:"TBD",
     },
+  ];
+  const lunchRecipes = [
+    {
+      title:"Crispy baked chicken katsu",
+      image : require('./APPDEV/Crispy-Baked-Chicken-Katsu567kcal.jpg'),
+      time: "TBD",
+      servings: "TBD",
+      ingredients: [
+        "TBD",
+      ],
+      directions: [
+        "TBD",
+      ],
+      calories:"TBD",
+    },
+    {
+      title:"Creamy tuscan pork meatballs",
+      image : require('./APPDEV/8Creamy-Tuscan-Pork-Meatball--Cannellini-Bean619kcal.jpg'),
+      time: "TBD",
+      servings: "TBD",
+      ingredients: [
+        "TBD",
+      ],
+      directions: [
+        "TBD",
+      ],
+      calories:"TBD",
+    },
+    {
+      title:"Chicken fries fajita",
+      image : require('./APPDEV/Chicken-Fries-Fajita561kCal.jpg'),
+      time: "TBD",
+      servings: "TBD",
+      ingredients: [
+        "TBD",
+      ],
+      directions: [
+        "TBD",
+      ],
+      calories:"TBD",
+    }
+    
   ];
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Our Recipes</Text>
       <Text style={styles.categoryTitle}>Breakfast</Text>
-      <Text style={styles.subCategoryTitle}>Weight Gain</Text>
 
       {breakfastRecipes.map((recipe, index) => (
         <RecipeCard
@@ -120,9 +189,25 @@ export default function RecipesList({ onBack }) {
           servings={recipe.servings}
           ingredients={recipe.ingredients}
           directions={recipe.directions}
+          calories={recipe.calories}
         />
       ))}
-      <Text style={styles.subCategoryTitle}>Weight Loss</Text>
+
+      <Text style={styles.categoryTitle}>Lunch</Text>
+
+      {lunchRecipes.map((recipe, index) => (
+        <RecipeCard
+          key={index}
+          title={recipe.title}
+          time={recipe.time}
+          image={recipe.image}
+          servings={recipe.servings}
+          ingredients={recipe.ingredients}
+          directions={recipe.directions}
+          calories={recipe.calories}
+        />
+      ))}
+
 
       <View style={styles.buttonContainer}>
         <Button title="Back to connection" onPress={onBack} />
@@ -210,5 +295,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
     margin : 5,
+  },
+  directionsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  arrow: {
+    fontSize: 18,
+    color: '#28B572',
   },
 });
