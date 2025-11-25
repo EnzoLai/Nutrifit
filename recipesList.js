@@ -62,7 +62,7 @@ const RecipeCard = ({ title, time, servings, image, ingredients, directions, cal
 export default function RecipesList({ onBack, data }) {
   const [selectedRecipes, setSelectedRecipes] = React.useState([]);
   const calculateTotalCalories = () => {
-    const recipesWithCalories = selectedRecipes.filter((recipe) => recipe.calories !== "TBD");
+    const recipesWithCalories = selectedRecipes.filter((recipe) => recipe.calories !== "/");
     return recipesWithCalories.reduce((total, recipe) => {
       const calories = parseInt(recipe.calories, 10) || 0;
       return total + calories;
@@ -249,32 +249,116 @@ export default function RecipesList({ onBack, data }) {
 
   const snackRecipes = [
     {
-      title:"TBD",
-      image : require('./APPDEV/Crispy-Baked-Chicken-Katsu567kcal.jpg'),
-      time: "TBD",
-      servings: "TBD",
+      title:"1 slice Swiss cheese and 8 whole-wheat crackers",
+      image : require('./assets/swiss-cheese-crackers.jpg'),
+      time: "/",
+      servings: "/",
       ingredients: [
-        "TBD",
+        "/",
       ],
       directions: [
-        "TBD",
+        "/",
       ],
-      calories:"TBD",
+      calories:"267",
+    },
+    {
+      title:"6 oz. 2% plain Greek yogurt, 1 cup strawberries and 1 Tbsp. honey",
+      image : require('./assets/greekYogurt.jpg'),
+      time: "/",
+      servings: "/",
+      ingredients: [
+        "/",
+      ],
+      directions: [
+        "/",
+      ],
+      calories:"234",
+    },
+    {
+      title:"15 baby carrots, 3 Tbsp. hummus and 1 medium orange",
+      image : require('./assets/bbyCarrots.jpg'),
+      time: "/",
+      servings: "/",
+      ingredients: [
+        "/",
+      ],
+      directions: [
+        "/",
+      ],
+      calories:"192",
     },
   ];
   const dinnerRecipes = [
     {
-      title:"TBD",
-      image : require('./APPDEV/Crispy-Baked-Chicken-Katsu567kcal.jpg'),
-      time: "TBD",
-      servings: "TBD",
+      title:"Green Goddess Salad with Chicken",
+      image : require('./assets/GGSalad.jpg'),
+      time: "15 mins",
+      servings: "1",
       ingredients: [
-        "TBD",
+        "1 avocado, peeled and pitted",
+        "1 ½ cups buttermilk",
+        "¼ cup fresh chopped herbs (such as tarragon, sorrel, mint, parsley and/or cilantro)",
+        "2 tablespoons rice vinegar",
+        "½ teaspoon salt",
+        "3 cups chopped romaine lettuce",
+        "1 cup sliced cucumber",
+        "3 ounces sliced (or diced) cooked boneless, skinless chicken breast",
+        "½ cup diced low-fat Swiss cheese (2 ounces)",
+        "6 cherry tomatoes, halved if desired",
       ],
       directions: [
-        "TBD",
+        "To prepare dressing: Place avocado, buttermilk, herbs, vinegar and salt in a blender and puree until smooth. (Makes about 1 3/4 cups dressing.) ",
+        "To prepare salad: Toss lettuce and cucumber in a bowl with 1 tablespoon of the dressing. Top with chicken, cheese and tomatoes. (Refrigerate the extra dressing for up to 3 days.) ",
       ],
-      calories:"TBD",
+      calories:"296",
+    },
+    {
+      title:"Creamed Spinach-Stuffed Salmon",
+      image : require('./assets/SSalmon.jpg'),
+      time: "30 mins",
+      servings: "6",
+      ingredients: [
+        "1 ½ tablespoons olive oil",
+        "½ cup thinly sliced shallots",
+        "5 cloves garlic, minced",
+        "¼ teaspoon crushed red pepper",
+        "10 ounces fresh baby spinach (about 5 cups)",
+        "½ cup shredded part-skim mozzarella cheese",
+        "⅓ cup reduced-fat cream cheese",
+        "6 (6 ounce) skin-on salmon fillets",
+        "½ teaspoon salt",
+        "½ teaspoon ground pepper",
+      ],
+      directions: [
+        "Preheat oven to 425 degrees F. Line a large rimmed baking sheet with parchment paper.",
+        "Heat oil in a large skillet over medium-high heat. Add shallots and garlic; cook, stirring often, until softened, about 2 minutes. Stir in crushed red pepper; cook, stirring constantly, for 30 seconds. Add spinach in batches; cook, stirring until wilted before adding more, about 3 minutes total. Remove from heat. Add mozzarella and cream cheese; stir until the cheeses melt. Let cool for 10 minutes. ",
+        "Place salmon fillets skin-side down on a clean work surface. With a sharp knife, make a cut lengthwise down the middle of each fillet, cutting to but not through the skin. Transfer the salmon to the prepared baking sheet. Sprinkle evenly with salt and pepper. Fill each pocket with about 1/3 cup of the spinach mixture. Bake until the salmon is opaque in the center, 8 to 10 minutes. ",
+      ],
+      calories:"312",
+    },
+    {
+      title:"Greek Potato Salad",
+      image : require('./assets/swiss-cheese-crackers.jpg'),
+      time: "45 mins",
+      servings: "10",
+      ingredients: [
+        "2 ½ pounds yellow or red potatoes, scrubbed and diced (1/2- to 1-inch)",
+        "¾ teaspoon salt, divided",
+        "¼ cup extra-virgin olive oil",
+        "3 tablespoons white-wine vinegar",
+        "¼ cup finely chopped shallot",
+        "1 tablespoon Dijon mustard",
+        "½ teaspoon ground pepper",
+        "1 cup halved cherry tomatoes",
+        "⅓ cup crumbled feta cheese",
+        "¼ cup quartered Kalamata olives",
+        "2 tablespoons chopped fresh oregano or 2 teaspoons dried",
+      ],
+      directions: [
+        "Bring 1 to 2 inches of water to a boil in a large saucepan (or pot) fitted with a steamer basket. Add potatoes, cover and cook until tender, 12 to 15 minutes. Spread in a single layer on a rimmed baking sheet and sprinkle with 1/4 teaspoon salt; let cool 15 minutes. ",
+        "Meanwhile, whisk oil, vinegar, shallot, mustard, pepper and the remaining 1/2 teaspoon salt in a large bowl. Add the potatoes, tomatoes, feta, olives and oregano; stir well to coat. Serve at room temperature or refrigerate until cold. ",
+      ],
+      calories:"170",
     },
   ];
 
@@ -326,6 +410,51 @@ export default function RecipesList({ onBack, data }) {
                 recipe={recipe}
             />
         ))}
+
+        <Text style={styles.categoryTitle}>Snack</Text>
+
+        {snackRecipes.map((recipe, index) => (
+            <RecipeCard
+                key={index}
+                title={recipe.title}
+                time={recipe.time}
+                image={recipe.image}
+                servings={recipe.servings}
+                ingredients={recipe.ingredients}
+                directions={recipe.directions}
+                calories={recipe.calories}
+                onSelect={(selectedRecipe) => {
+                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
+                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
+                  } else {
+                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
+                  }
+                }}
+                recipe={recipe}
+            />
+        ))}
+
+        {dinnerRecipes.map((recipe, index) => (
+            <RecipeCard
+                key={index}
+                title={recipe.title}
+                time={recipe.time}
+                image={recipe.image}
+                servings={recipe.servings}
+                ingredients={recipe.ingredients}
+                directions={recipe.directions}
+                calories={recipe.calories}
+                onSelect={(selectedRecipe) => {
+                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
+                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
+                  } else {
+                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
+                  }
+                }}
+                recipe={recipe}
+            />
+        ))}
+
         <View style={styles.selectedRecipesContainer}>
           <Text style={styles.selectedRecipesTitle}>Selected Recipes:</Text>
           {selectedRecipes.length > 0 ? (
