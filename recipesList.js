@@ -338,7 +338,7 @@ export default function RecipesList({ onBack, data }) {
     },
     {
       title:"Greek Potato Salad",
-      image : require('./assets/swiss-cheese-crackers.jpg'),
+      image : require('./assets/GreekPotatSalad.jpg'),
       time: "45 mins",
       servings: "10",
       ingredients: [
