@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Button, ScrollView, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://gclpgggqbmbcaenzidgh.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjbHBnZ2dxYm1iY2FlbnppZGdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODI5MjEsImV4cCI6MjA3ODM1ODkyMX0.dIsT_dnWNPFqNpB5C4cY5ZSRetzL1k_B3Fu81XzLQeY';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories, onSelect, recipe}) => {
+const RecipeCard = ({ title, time, servings, image, ingredients, directions, calories, onSelect, recipe, selectedRecipes}) => {
   const [showIngredients, setShowIngredients] = React.useState(false);
   const [showDirections, setShowDirections] = React.useState(false);
 
@@ -14,12 +14,21 @@ const RecipeCard = ({ title, time, servings, image, ingredients, directions, cal
       <View style={styles.recipeCard}>
         <Text style={styles.recipeTitle}>{title}</Text>
         <TouchableOpacity
-            style={styles.selectButton}
-            onPress={() => onSelect(recipe)}
-            
-        >
-          <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>
+    style={styles.selectButton}
+    onPress={() => {
+          if (selectedRecipes.some((item) => item.title === recipe.title)) {
+                   Alert.alert("Unselected", `${recipe.title} has been unselected.`);
+                    onSelect(recipe);
+          } else {
+                   Alert.alert("Selected", `${recipe.title} has been selected.`);
+                   onSelect(recipe);
+                 }
+          }}
+          >
+          <Text style={styles.selectButtonText}>
+          {selectedRecipes.some((item) => item.title === recipe.title) ? 'Unselect' : 'Select'}
+          </Text>
+</TouchableOpacity>
         <Text style={styles.recipeMeta}>Total Time: {time} | Servings: {servings} | Calories: {calories}</Text>
         <Image
             source={image}
@@ -62,6 +71,14 @@ const RecipeCard = ({ title, time, servings, image, ingredients, directions, cal
 
 export default function RecipesList({ onBack, data }) {
   const [selectedRecipes, setSelectedRecipes] = React.useState([]);
+
+  const onSelect = (selectedRecipe) => {
+    if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
+      setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
+    } else {
+      setSelectedRecipes([...selectedRecipes, selectedRecipe]);
+    }
+  };
   const calculateTotalCalories = () => {
     const recipesWithCalories = selectedRecipes.filter((recipe) => recipe.calories !== "/");
     return recipesWithCalories.reduce((total, recipe) => {
@@ -378,14 +395,9 @@ export default function RecipesList({ onBack, data }) {
                 ingredients={recipe.ingredients}
                 directions={recipe.directions}
                 calories={recipe.calories}
-                onSelect={(selectedRecipe) => {
-                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
-                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
-                  } else {
-                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
-                  }
-                }}
+                onSelect={onSelect}
                 recipe={recipe}
+                selectedRecipes={selectedRecipes}
             />
         ))}
 
@@ -401,14 +413,9 @@ export default function RecipesList({ onBack, data }) {
                 ingredients={recipe.ingredients}
                 directions={recipe.directions}
                 calories={recipe.calories}
-                onSelect={(selectedRecipe) => {
-                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
-                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
-                  } else {
-                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
-                  }
-                }}
+                onSelect={onSelect}
                 recipe={recipe}
+                selectedRecipes={selectedRecipes}
             />
         ))}
 
@@ -424,14 +431,9 @@ export default function RecipesList({ onBack, data }) {
                 ingredients={recipe.ingredients}
                 directions={recipe.directions}
                 calories={recipe.calories}
-                onSelect={(selectedRecipe) => {
-                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
-                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
-                  } else {
-                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
-                  }
-                }}
+                onSelect={onSelect}
                 recipe={recipe}
+                selectedRecipes={selectedRecipes}
             />
         ))}
 
@@ -445,14 +447,9 @@ export default function RecipesList({ onBack, data }) {
                 ingredients={recipe.ingredients}
                 directions={recipe.directions}
                 calories={recipe.calories}
-                onSelect={(selectedRecipe) => {
-                  if (selectedRecipes.some((item) => item.title === selectedRecipe.title)) {
-                    setSelectedRecipes(selectedRecipes.filter((item) => item.title !== selectedRecipe.title));
-                  } else {
-                    setSelectedRecipes([...selectedRecipes, selectedRecipe]);
-                  }
-                }}
+                onSelect={onSelect}
                 recipe={recipe}
+                selectedRecipes={selectedRecipes}
             />
         ))}
 
