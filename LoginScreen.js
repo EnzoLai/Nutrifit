@@ -34,18 +34,45 @@ export default function LoginScreen({ onLogin }) {
     }
 
     if (isRegister) {
-      //create account
+      //create account in your database
       const { data, error } = await supabase
         .from("user")
         .insert([{ email, password }])
         .select("*")
         .single();
 
-      if (error) Alert.alert("error", error.message);
-      else {
-        Alert.alert("Success", "Account created successfully");
-        onLogin(data);
+      if (error) {
+        Alert.alert("error", error.message);
+        return;
       }
+
+      const { error: signupError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      // Log CMD pour savoir si l’email est bien envoyé
+      console.log(
+        "Email confirmation response:",
+        signupError ? signupError : "Email sent successfully"
+      );
+
+      if (signupError) {
+        Alert.alert(
+          "Warning",
+          "Account created but email confirmation could not be sent: " +
+            signupError.message
+        );
+      } else {
+        Alert.alert(
+          "Success",
+          "Account created! A confirmation email has been sent."
+        );
+      }
+
+
+      onLogin(data);
+
     } else {
       //connection
       const { data, error } = await supabase
@@ -57,7 +84,7 @@ export default function LoginScreen({ onLogin }) {
       if (error || !data) {
         Alert.alert("error", "email address is not registered");
       } else if (data.password !== password) {
-        Alert.alert("error", "inccorect password");
+        Alert.alert("error", "incorrect password");
       } else {
         Alert.alert("welcome", "successfully connected !");
         onLogin(data);
@@ -67,13 +94,26 @@ export default function LoginScreen({ onLogin }) {
 
   return (
     <View style={{ padding: 20, justifyContent: "center", flex: 1 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10, textAlign: "center" }}>
+      <Text
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          marginBottom: 10,
+          textAlign: "center",
+        }}
+      >
         {isRegister ? "Create an account" : "Connection"}
       </Text>
 
       {/*for any database connection error*/}
-      <Text style={{ textAlign: "center", marginBottom: 15, color: connected ? "green" : "red" }}>
-        {connected ? "databse connected" : "connection do database ..."}
+      <Text
+        style={{
+          textAlign: "center",
+          marginBottom: 15,
+          color: connected ? "green" : "red",
+        }}
+      >
+        {connected ? "database connected" : "connecting to database..."}
       </Text>
 
       <TextInput
@@ -103,7 +143,10 @@ export default function LoginScreen({ onLogin }) {
         }}
       />
 
-      <Button title={isRegister ? "Create an account" : "Connection"} onPress={handleAuth} />
+      <Button
+        title={isRegister ? "Create an account" : "Connection"}
+        onPress={handleAuth}
+      />
 
       <Text
         style={{ textAlign: "center", marginTop: 15, color: "blue" }}
