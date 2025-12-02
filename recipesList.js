@@ -250,7 +250,7 @@ export default function RecipesList({ onBack, data }) {
   const snackRecipes = [
     {
       title:"1 slice Swiss cheese and 8 whole-wheat crackers",
-      image : require('./assets/swiss-cheese-crackers.jpg'),
+      image : require('./assets/guggisberg-swiss-cheese-crackers.jpg'),
       time: "/",
       servings: "/",
       ingredients: [
@@ -610,4 +610,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
 
