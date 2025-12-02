@@ -148,7 +148,7 @@ export default function RecipesList({ onBack, data }) {
   const lunchRecipes = [
     {
       title:"Crispy baked chicken katsu",
-      image : require('./APPDEV/Crispy-Baked-Chicken-Katsu567kcal.jpg'),
+      image : require('./assets/Crispy-Baked-Chicken-Katsu567kcal.jpg'),
       time: "1 hour",
       servings: "1",
       ingredients: [
@@ -172,7 +172,7 @@ export default function RecipesList({ onBack, data }) {
     },
     {
       title:"Creamy tuscan pork meatballs",
-      image : require('./APPDEV/8Creamy-Tuscan-Pork-Meatball--Cannellini-Bean619kcal.jpg'),
+      image : require('./assets/8Creamy-Tuscan-Pork-Meatball--Cannellini-Bean619kcal.jpg'),
       time: "55 mins",
       servings: "6",
       ingredients: [
@@ -222,7 +222,7 @@ export default function RecipesList({ onBack, data }) {
     },
     {
       title:"Chicken fries fajita",
-      image : require('./APPDEV/Chicken-Fries-Fajita561kCal.jpg'),
+      image : require('./assets/Chicken-Fries-Fajita561kCal.jpg'),
       time: "25 mins",
       servings: "2",
       ingredients: [
@@ -610,3 +610,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
