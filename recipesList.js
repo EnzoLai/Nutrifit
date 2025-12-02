@@ -16,6 +16,7 @@ const RecipeCard = ({ title, time, servings, image, ingredients, directions, cal
         <TouchableOpacity
             style={styles.selectButton}
             onPress={() => onSelect(recipe)}
+            
         >
           <Text style={styles.selectButtonText}>Select</Text>
         </TouchableOpacity>
@@ -610,5 +611,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
 
